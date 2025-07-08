@@ -24,7 +24,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <title>Academic Project Page</title>
+  <title>Kestrel</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
   rel="stylesheet">
@@ -52,13 +52,13 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Kestrel: A Point Grounding Multimodal LLM for Part-Aware 3D Vision-Language Understanding</h1>
+            <h1 class="title is-1 publication-title">Kestrel: 3D Multimodal LLM for Part-Aware Grounded Description</h1>
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
-                <a href="https://feielysia.github.io/" target="_blank">Junjie Fei</a><sup>*</sup>,</span>
+                <a href="https://openreview.net/profile?id=~Mahmoud_Ahmed2" target="_blank">Mahmoud Ahmed</a><sup>*</sup>,</span>
                 <span class="author-block">
-                  <a href="https://openreview.net/profile?id=~Mahmoud_Ahmed2" target="_blank">Mahmoud Ahmed</a><sup>*</sup>,</span>
+                  <a href="https://feielysia.github.io/" target="_blank">Junjie Fei</a><sup>*</sup>,</span>
                   <span class="author-block">
                     <a href="https://dingjiansw101.github.io/" target="_blank">Jian Ding</a>,</span>
                     <span class="author-block">
@@ -69,7 +69,7 @@
                   </div>
 
                   <div class="is-size-5 publication-authors">
-                    <span class="author-block">King Abdullah University of Science and Technology<br>Preprint</span>
+                    <span class="author-block">Vision CAIR, King Abdullah University of Science and Technology<br>ICCV 2025</span>
                     <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
                   </div>
 
@@ -119,6 +119,17 @@
                   </a>
                 </span>
 
+                <!-- HuggingFace link -->
+                <span class="link-block">
+                  <a href="https://huggingface.co/datasets/YOUR_DATASET_HERE" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-hugging-face"></i>
+                    </span>
+                    <span>3DCoMPaT-GRIN (To be released)</span>
+                  </a>
+                </span>
+
             </div>
           </div>
         </div>
@@ -140,13 +151,13 @@
       <!-- <h2 class="subtitle has-text-centered"> -->
         <!-- Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus.  -->
       <!-- </h2> -->
-      <img src="static/images/teaser.jpg" alt="MY ALT TEXT"/>
+      <img src="static/images/teaser.pdf" alt="MY ALT TEXT"/>
       <!-- <h2 class="subtitle has-text-centered"> -->
         <!-- <b>Grounded 3D Descriptions with Kestrel.</b> Kestrel is a part-aware point grounding multimodal large language model (MLLM) capable of comprehending natural language and grounding the position of an object's parts and materials. (a) Kestrel responds to user instruction accurately even at the part level, an ability that noe of the previous 3D MLLMs possess. (b) Kestrel can generate detailed descriptions and grounding object parts mentioned in the response. (c) Kestrel enables dialogue and reasoning over part-level information. -->
       <!-- </h2> -->
       <div class="content has-text-justified">
         <p>
-          <b>Grounded 3D Descriptions with Kestrel.</b> Kestrel is a part-aware point grounding multimodal large language model (MLLM) capable of comprehending natural language and grounding the position of an object's parts and materials. (a) Kestrel responds to user instruction accurately even at the part level, an ability that noe of the previous 3D MLLMs possess. (b) Kestrel can generate detailed descriptions and grounding object parts mentioned in the response. (c) Kestrel enables dialogue and reasoning over part-level information.
+          <b>Part-Aware Point Grounded Description.</b> Given an input point cloud, the model is tasked with predicting a grounded description - text that provides a detailed interpretation of the 3D object, each part-level phrase in this generated text (e.g., “back-rest” and “seat support”) is linked to a point-wise segmentation mask, challenging the model's capability for part-aware language understanding and segmentation grounding (it is worth noting that the colors shown in this figure are not the actual colors of the point cloud but are used to represent the segmentation mask).
         </p>
       </div>
     </div>
