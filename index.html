@@ -124,7 +124,7 @@
                   <a href="https://huggingface.co/datasets/YOUR_DATASET_HERE" target="_blank"
                     class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
-                      <i class="fab fa-hugging-face"></i>
+                      <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF" style="height: 1em;">
                     </span>
                     <span>3DCoMPaT-GRIN (To be released)</span>
                   </a>
@@ -143,18 +143,9 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <!-- <video poster="" id="tree" autoplay controls muted loop height="100%"> -->
-        <!-- Your video here -->
-        <!-- <source src="static/videos/banner_video.mp4" -->
-        <!-- type="video/mp4"> -->
-      <!-- </video> -->
-      <!-- <h2 class="subtitle has-text-centered"> -->
-        <!-- Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus.  -->
-      <!-- </h2> -->
-      <img src="static/images/teaser.svg" alt="MY ALT TEXT"/>
-      <!-- <h2 class="subtitle has-text-centered"> -->
-        <!-- <b>Grounded 3D Descriptions with Kestrel.</b> Kestrel is a part-aware point grounding multimodal large language model (MLLM) capable of comprehending natural language and grounding the position of an object's parts and materials. (a) Kestrel responds to user instruction accurately even at the part level, an ability that noe of the previous 3D MLLMs possess. (b) Kestrel can generate detailed descriptions and grounding object parts mentioned in the response. (c) Kestrel enables dialogue and reasoning over part-level information. -->
-      <!-- </h2> -->
+      <div class="is-flex is-justify-content-center">
+        <img src="static/images/teaser.svg" alt="MY ALT TEXT" style="max-width: 100%; height: auto;" />
+      </div>
       <div class="content has-text-justified">
         <p>
           <b>Part-Aware Point Grounded Description.</b> Given an input point cloud, the model is tasked with predicting a grounded description - text that provides a detailed interpretation of the 3D object, each part-level phrase in this generated text (<i>e.g.,</i> “back-rest” and “seat support”) is linked to a point-wise segmentation mask, challenging the model's capability for part-aware language understanding and segmentation grounding (it is worth noting that the colors shown in this figure are not the actual colors of the point cloud but are used to represent the segmentation mask).
@@ -173,7 +164,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            While 3D multimodal large language models (MLLMs) have achieved significant progress, they are restricted to object and scene understanding and struggle to understand 3D spatial structures at the part level. In this paper, we introduce Kestrel: a part-aware point grounding MLLM, representing a novel approach that empowers 3D MLLMs with part-aware understanding, enabling better interpretation and segmentation grounding of 3D objects at the part level. Despite its significance, the current landscape lacks tasks and datasets that endow and assess the part-aware understanding ability of 3D MLLMs. To address this, we propose two novel tasks: <i>Part-Aware Point Grounding</i> and <i>Part-Aware Point Grounded Captioning</i>. In Part-Aware Point Grounding, the model is tasked with directly predicting a part-level segmentation mask based on user instructions. In Part-Aware Point Grounded Captioning, the model provides a detailed caption that includes part-level descriptions, where each part-level description in the answer corresponds to a segmentation mask. To support learning and evaluating for the proposed tasks, we introduce two versions of <i>3DCoMPaT Grounded Instructions Dataset</i> (3DCoMPaT-GRIN). 3DCoMPaT-GRIN Vanilla, comprising 789k part-aware point cloud-instruction-segmentation mask triplets, is used to evaluate MLLMs' ability of part-aware segmentation grounding based on user instructions. 3DCoMPaT-GRIN Grounded Caption, containing 107k part-aware point cloud-instruction-grounded caption triplets, assesses both MLLMs' part-aware language comprehension and segmentation grounding capabilities. Our introduced tasks, dataset, and Kestrel represent a preliminary effort to bridge the gap between human cognition and 3D MLLMs, <i>i.e.,</i> the ability to perceive and engage with the environment at both global and part levels. Extensive experiments on the 3DCoMPaT-GRIN show that Kestrel can accurately generate user-specific segmentation masks, a capability not present in any existing 3D MLLMs. Kestrel thus established a benchmark for evaluating the part-aware language comprehension and segmentation grounding of 3D objects.
+            In this paper, we introduce Part-Aware Point Grounded Description (<i>PaPGD</i>), a challenging task aimed at advancing 3D multimodal learning for fine-grained, part-aware segmentation grounding and detailed explanation of 3D objects. Existing 3D datasets largely focus on either vision-only part segmentation or vision-language scene segmentation, lacking the fine-grained multimodal segmentation needed for robotic navigation and interaction in real-world environments. To address this gap, we present the 3DCoMPaT Grounded Instructions (<i>3DCoMPaT-GrIn</i>) Dataset, a comprehensive resource that pairs rich point cloud descriptions with corresponding part-level segmentation masks. This dataset encompasses extensive samples designed for both PaPGD and fine-grained single-part grounding tasks. To tackle the inherent challenges of grounding objects and generating grounded descriptions at the part level, we propose Kestrel, a part-aware 3D multimodal large language model that integrates an advanced language model for nuanced language comprehension with multi-level point feature propagation and query refinement mechanism to enhance spatial reasoning at the part level. The extensive experiments demonstrate that Kestrel effectively bridges the gap between part-aware language understanding and 3D segmentation grounding, paving the way for more robust and interpretable 3D object comprehension that meets the demands of real-world robotic applications.
           </p>
         </div>
       </div>
@@ -192,10 +183,11 @@
           <h2 class="title is-3">Model</h2>
           <div class="content has-text-justified">
             <p>
-              Kestrel includes both 3D vision-language modules and 3D segmentation grounding modules. Vision-language module <math><msub><mi>f</mi><mn>VL</mn></msub></math> projects the input cloud and text instruction into language hidden states. Decoding these language hidden states, we can get a detailed caption with part-level description. Each grounded part-level description (<i>e.g.,</i> <span style="color:rgb(181, 60, 181);">backrest</span>, <span style="color:rgb(82, 195, 64);">legs</span>, ...) in the answer can extract a <em>[SEG]</em> token, the projection layer <math><msub><mi>f</mi><mn>P</mn></msub></math> maps the hidden states of <em>[SEG]</em> tokens to the queries of segmentation grounding decoder <math><msub><mi>f</mi><mn>D</mn></msub></math>. Meanwhile, the segmentation grounding decoder also takes the point features, extracted by the segmentation grounding encoder <math><msub><mi>f</mi><mn>E</mn></msub></math>, as input and predicts the corresponding masks indicating by <em>[SEG]</em> tokens.
+              <!-- Kestrel includes both 3D vision-language modules and 3D segmentation grounding modules. Vision-language module <math><msub><mi>f</mi><mn>VL</mn></msub></math> projects the input cloud and text instruction into language hidden states. Decoding these language hidden states, we can get a detailed caption with part-level description. Each grounded part-level description (<i>e.g.,</i> <span style="color:rgb(181, 60, 181);">backrest</span>, <span style="color:rgb(82, 195, 64);">legs</span>, ...) in the answer can extract a <em>[SEG]</em> token, the projection layer <math><msub><mi>f</mi><mn>P</mn></msub></math> maps the hidden states of <em>[SEG]</em> tokens to the queries of segmentation grounding decoder <math><msub><mi>f</mi><mn>D</mn></msub></math>. Meanwhile, the segmentation grounding decoder also takes the point features, extracted by the segmentation grounding encoder <math><msub><mi>f</mi><mn>E</mn></msub></math>, as input and predicts the corresponding masks indicating by <em>[SEG]</em> tokens. -->
+              The Kestrel model incorporates a point encoder and an LLM to construct a 3D MLLM, designed to generate detailed descriptions based on the input point cloud and text. The 3D Segmentation Decoder extracts the output embedding of the <em>[SEG]</em> token from the output hidden states of the 3D MLLM. After projecting these <em>[SEG]</em> embeddings, the 3D SGM uses them as initial queries <math><msub><mi>q</mi><mn>0</mn></msub></math>. The point feature propagation module (PFPM) encodes multi-level point features <math><msub><mi>f</mi><mn>p</mn></msub></math>. Then, the segmentation decoder takes <math><msub><mi>q</mi><mn>0</mn></msub></math> and <math><msub><mi>f</mi><mn>p</mn></msub></math> as input to generate the point-wise segmentation masks using a query refinement mechanism.
             </p>
           </div>
-          <img src="static/images/arch.jpg" alt="MY ALT TEXT"/>
+          <img src="static/images/arch.png" alt="MY ALT TEXT"/>
         </div>
       </div>
     </div>
@@ -209,13 +201,13 @@
     <div class="container">     
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3">3DCoMPaT-GRIN</h2>
+          <h2 class="title is-3">3DCoMPaT-GrIn</h2>
           <div class="content has-text-justified">
             <p>
-                Here, we provide some examples of 3DCoMPaT-GRIN Grounded Caption. The label of this dataset is grounded caption, a multimodal caption comprising of detailed description and segmentation masks (part and material masks). Positional tokens <i>&lt;p&gt;</i> and <i>&lt;/p&gt;</i> refer to the part-level information that needs to be grounded in the caption.
+                Here, we provide some examples of 3DCoMPaT-GrIn Grounded Description. The label of this dataset is grounded description, a multimodal text comprising of detailed description and segmentation masks (part and material masks). Positional tokens <i>&lt;p&gt;</i> and <i>&lt;/p&gt;</i> refer to the part-level information that needs to be grounded in the description.
             </p>
           </div>
-          <img src="static/images/dataset.jpg" alt="MY ALT TEXT"/>
+          <img src="static/images/groundtruth.svg" alt="MY ALT TEXT"/>
         </div>
       </div>
     </div>
@@ -231,16 +223,32 @@
       <div id="results-carousel" class="carousel results-carousel">
        <div class="item">
         <!-- Your image here -->
-        <img src="static/images/demo1.jpg" alt="MY ALT TEXT"/>
+        <img src="static/images/grounded_description.svg" alt="MY ALT TEXT"/>
         <h2 class="subtitle has-text-centered">
-          <b>Part-Aware Point Grounding</b>. Kestrel is capable of grounding user-specified part in an 3D object using voxel-wise segmentation mask.
+          <b>Qualitative results of Kestrel on Part-Aware Point Grounded Description.</b>
         </h2>
       </div>
       <div class="item">
         <!-- Your image here -->
-        <img src="static/images/demo2.jpg" alt="MY ALT TEXT"/>
+        <img src="static/images/single_part_grounding.svg" alt="MY ALT TEXT"/>
         <h2 class="subtitle has-text-centered">
-          <b>Part-Aware Point Grounded Caption</b>. Kestrel can generate multimodal grounded caption, a detailed description with voxel-wise segmentation mask corresponding to part-level information in the response.
+          <b>Qualitative results of Kestrel on Single-Part Grounding.</b>
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/generalization.svg" alt="MY ALT TEXT"/>
+        <h2 class="subtitle has-text-centered">
+          <b>Out-of-Domain Generalization.</b> Kestrel demonstrates robustness when there is a domain shift from \data~to Objaverse, as well as the input distribution offsets from 3D single-object training to 3D multi-object testing.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <div class="is-flex is-justify-content-center">
+          <img src="static/images/realworld.svg" alt="MY ALT TEXT" style="max-width: 100%; height: auto;" />
+        </div>
+        <h2 class="subtitle has-text-centered">
+          <b>Real-Word Demos.</b> Kestrel shows a certain degree of robustness to noisy and incomplete real-world inputs.
         </h2>
       </div>
     </div>
